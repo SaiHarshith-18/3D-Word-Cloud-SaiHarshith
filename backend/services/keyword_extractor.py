@@ -63,9 +63,18 @@ def extract_keywords(text: str, top_n: int = 50) -> list[dict]:
     if max_score == 0:
         return []
 
+    # Post-TF-IDF noise filter: remove short words and Wikipedia/article artifacts
+    _BLOCKLIST = {
+        "isbn", "cid", "archived", "retrieved", "august",
+        "january", "february", "march", "april", "june", "july", "september",
+        "october", "november", "december", "pdf", "edit", "new", "original",
+        "based", "used", "article", "also", "like", "just", "that", "this", "with",
+    }
+
     results = [
         {"word": term, "weight": round(float(score / max_score), 4)}
         for term, score in zip(terms, scores)
+        if len(term) >= 4 and term.lower() not in _BLOCKLIST
     ]
 
     return sorted(results, key=lambda x: x["weight"], reverse=True)

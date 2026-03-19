@@ -6,7 +6,7 @@
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
-  background: #0f0f13;
+  background: #0d0d0d;
   color: #e0e0e0;
   min-height: 100vh;
 }
@@ -17,12 +17,12 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  padding: 2rem 1rem 1rem;
+  padding: 2.5rem 2rem 1.5rem;
 }
 
 .app-header {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .app-title {
@@ -30,10 +30,24 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #ffffff;
+  text-shadow: 0 0 30px rgba(74, 144, 217, 0.3), 0 0 60px rgba(80, 227, 194, 0.15);
+}
+
+.app-title::before {
+  content: '';
+  display: inline-block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-right: 0.6rem;
+  vertical-align: middle;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #4a90d9 0%, #50e3c2 50%, #f5a623 100%);
+  transform: rotate(45deg) scale(0.85);
+  opacity: 0.9;
 }
 
 .app-subtitle {
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
   font-size: 0.95rem;
   color: #888;
 }
@@ -41,18 +55,49 @@ body {
 /* ── Input section (narrow) ── */
 .input-section {
   width: 100%;
-  max-width: 680px;
-  margin-bottom: 1.5rem;
+  max-width: 1200px;
+  margin-bottom: 2rem;
 }
 
-/* ── Cloud section (wide) ── */
-.cloud-section {
+/* ── Split panel layout ── */
+.main-content {
   width: 100%;
-  max-width: 900px;
+  max-width: 1200px;
+  display: flex;
+  gap: 1.5rem;
+  height: 560px;
+}
+
+.cloud-panel {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  flex: 1;
+}
+
+.keyword-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: #14141c;
+  border: 1px solid #1e1e2a;
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.keyword-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.keyword-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.keyword-sidebar::-webkit-scrollbar-thumb {
+  background: #2e2e3a;
+  border-radius: 2px;
 }
 
 /* ── URL input area ── */
@@ -166,11 +211,107 @@ body {
 /* ── 3D Canvas ── */
 .canvas-container {
   width: 100%;
-  height: 520px;
+  flex: 1;
   border-radius: 12px;
-  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0f0f13 70%);
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0d0d0d 70%);
   border: 1px solid #1e1e2a;
   overflow: hidden;
+}
+
+/* ── Loading overlay ── */
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 1200px;
+}
+
+.loading-text {
+  font-size: 0.9rem;
+  color: #888;
+  letter-spacing: 0.03em;
+}
+
+/* ── Keyword list ── */
+.keyword-list-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #1e1e2a;
+}
+
+.keyword-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.keyword-list-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.keyword-list-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.keyword-list-scroll::-webkit-scrollbar-thumb {
+  background: #2e2e3a;
+  border-radius: 2px;
+}
+
+.keyword-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0;
+}
+
+.keyword-rank {
+  width: 1.5rem;
+  text-align: right;
+  font-size: 0.75rem;
+  color: #555;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+
+.keyword-word {
+  width: 8rem;
+  font-size: 0.85rem;
+  color: #e0e0e0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.keyword-bar-track {
+  flex: 1;
+  height: 6px;
+  background: #1e1e2a;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.keyword-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.keyword-pct {
+  width: 2.5rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #888;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Legend ── */
@@ -178,7 +319,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid #1e1e2a;
+  justify-content: center;
 }
 
 .legend-label {
@@ -188,11 +332,15 @@ body {
   letter-spacing: 0.05em;
 }
 
-.legend-gradient {
-  width: 120px;
+.legend-blocks {
+  display: flex;
+  gap: 2px;
+}
+
+.legend-block {
+  width: 12px;
   height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(to right, #4a90d9, #50e3c2, #f5a623);
+  border-radius: 1px;
 }
 
 /* ── Word tooltip ── */
@@ -223,4 +371,20 @@ body {
   font-size: 0.9rem;
   color: #555;
   margin-top: 5rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    height: auto;
+  }
+  .canvas-container {
+    height: 400px;
+    flex: none;
+  }
+  .keyword-sidebar {
+    width: 100%;
+    max-height: 300px;
+  }
 }

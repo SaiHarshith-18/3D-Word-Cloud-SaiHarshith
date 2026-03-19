@@ -4,6 +4,7 @@ const SAMPLE_URLS = [
   { label: 'Machine Learning', url: 'https://en.wikipedia.org/wiki/Machine_learning' },
   { label: 'Artificial Intelligence', url: 'https://en.wikipedia.org/wiki/Artificial_intelligence' },
   { label: 'Climate Change', url: 'https://en.wikipedia.org/wiki/Climate_change' },
+  {label: 'BBC News - Climate Change', url: 'https://www.bbc.com/news/articles/c2l799gxjjpo'},
 ]
 
 interface UrlInputProps {

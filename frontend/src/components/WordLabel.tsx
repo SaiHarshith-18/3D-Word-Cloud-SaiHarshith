@@ -7,13 +7,13 @@ interface WordLabelProps {
   entry: WordWeight
   position: [number, number, number]
   fontSize: number
+  fontWeight?: number
   color: string
 }
 
-export function WordLabel({ entry, position, fontSize, color }: WordLabelProps) {
+export function WordLabel({ entry, position, fontSize, fontWeight = 400, color }: WordLabelProps) {
   const meshRef = useRef<Mesh>(null!)
   const [hovered, setHovered] = useState(false)
-  const [showTooltip, setShowTooltip] = useState(false)
 
   const handlePointerOver = useCallback(() => {
     setHovered(true)
@@ -25,15 +25,12 @@ export function WordLabel({ entry, position, fontSize, color }: WordLabelProps) 
     document.body.style.cursor = 'auto'
   }, [])
 
-  const handleClick = useCallback(() => {
-    setShowTooltip(prev => !prev)
-  }, [])
-
   return (
     <group position={position}>
       <Text
         ref={meshRef}
         fontSize={fontSize}
+        fontWeight={fontWeight}
         color={hovered ? '#ffffff' : color}
         anchorX="center"
         anchorY="middle"
@@ -42,11 +39,10 @@ export function WordLabel({ entry, position, fontSize, color }: WordLabelProps) 
         scale={hovered ? 2 : 1}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
-        onClick={handleClick}
       >
         {entry.word}
       </Text>
-      {showTooltip && (
+      {hovered && (
         <Html center distanceFactor={10} style={{ pointerEvents: 'none' }}>
           <div className="word-tooltip">
             <span className="word-tooltip-word">{entry.word}</span>

@@ -24,28 +24,38 @@ function fibonacciSphere(count: number, radius = 4): [number, number, number][] 
   return points
 }
 
-// 3-stop color gradient: low → mid → high weight
-function weightToColor(w: number): string {
-  const low = [74, 144, 217]   // #4a90d9
-  const mid = [80, 227, 194]   // #50e3c2
-  const high = [245, 166, 35]  // #f5a623
-
-  let from: number[], to: number[], t: number
-  if (w < 0.5) {
-    from = low; to = mid; t = w * 2
-  } else {
-    from = mid; to = high; t = (w - 0.5) * 2
-  }
-
-  const r = Math.round(from[0] + (to[0] - from[0]) * t)
-  const g = Math.round(from[1] + (to[1] - from[1]) * t)
-  const b = Math.round(from[2] + (to[2] - from[2]) * t)
-  return `rgb(${r},${g},${b})`
+// Discrete weight-to-color mapping
+export function weightToColor(w: number): string {
+  if (w >= 0.90) return '#ff6b2b'  // bright orange
+  if (w >= 0.80) return '#ff9d00'  // amber
+  if (w >= 0.70) return '#f0f921'  // bright yellow
+  if (w >= 0.60) return '#a8e043'  // yellow-green
+  if (w >= 0.50) return '#1db87a'  // green-teal
+  if (w >= 0.40) return '#1a9e9e'  // teal
+  if (w >= 0.30) return '#1a4fd6'  // blue
+  if (w >= 0.20) return '#7e03a8'  // purple
+  if (w >= 0.15) return '#2563eb'  // bright blue
+  if (w >= 0.10) return '#0891b2'  // cyan
+  if (w >= 0.05) return '#6b7280'  // cool gray
+  return '#666666'                  // dark gray
 }
 
-// Map weight to font size (linear interpolation)
+
+// Map weight to font size scale
 function weightToSize(w: number): number {
-  return 0.12 + w * (0.45 - 0.12)
+  if (w > 0.80) return 1.0
+  if (w >= 0.60) return 0.75
+  if (w >= 0.40) return 0.60
+  if (w >= 0.20) return 0.45
+  return 0.32
+}
+
+// Map weight to font weight (boldness)
+export function weightToFontWeight(w: number): number {
+  if (w > 0.80) return 700
+  if (w >= 0.60) return 600
+  if (w >= 0.40) return 500
+  return 400
 }
 
 interface WordCloud3DProps {
@@ -90,6 +100,7 @@ function Scene({ keywords }: WordCloud3DProps) {
             entry={entry}
             position={positions[i]}
             fontSize={weightToSize(entry.weight)}
+            fontWeight={weightToFontWeight(entry.weight)}
             color={weightToColor(entry.weight)}
           />
         ))}

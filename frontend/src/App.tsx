@@ -1,6 +1,7 @@
 import { useAnalyze } from './hooks/useAnalyze'
 import { UrlInput } from './components/UrlInput'
 import { WordCloud3D } from './components/WordCloud3D'
+import { KeywordList } from './components/KeywordList'
 
 function App() {
   const { keywords, loading, error, analyze } = useAnalyze()
@@ -16,22 +17,27 @@ function App() {
         <UrlInput onSubmit={analyze} loading={loading} error={error} />
       </section>
 
-      <main className="cloud-section">
-        {keywords.length > 0 ? (
-          <>
+      {loading && keywords.length === 0 && (
+        <div className="canvas-container loading-overlay">
+          <span className="spinner" />
+          <p className="loading-text">Analysing...</p>
+        </div>
+      )}
+
+      {keywords.length > 0 ? (
+        <main className="main-content">
+          <div className="cloud-panel">
             <WordCloud3D keywords={keywords} />
-            <div className="legend">
-              <span className="legend-label">Low</span>
-              <div className="legend-gradient" />
-              <span className="legend-label">High</span>
-            </div>
-          </>
-        ) : (
-          !loading && (
-            <p className="empty-state">Enter a URL above to generate a word cloud</p>
-          )
-        )}
-      </main>
+          </div>
+          <aside className="keyword-sidebar">
+            <KeywordList keywords={keywords} />
+          </aside>
+        </main>
+      ) : (
+        !loading && (
+          <p className="empty-state">Enter a URL above to generate a word cloud</p>
+        )
+      )}
     </div>
   )
 }
