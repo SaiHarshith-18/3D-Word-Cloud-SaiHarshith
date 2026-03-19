@@ -12,11 +12,24 @@ function App() {
         <p className="app-subtitle">Enter a news article or Wikipedia URL to visualise its keywords</p>
       </header>
 
-      <main className="app-main">
+      <section className="input-section">
         <UrlInput onSubmit={analyze} loading={loading} error={error} />
-        <WordCloud3D keywords={keywords} />
-        {keywords.length === 0 && !loading && (
-          <p className="empty-state">Enter a URL above to generate a word cloud</p>
+      </section>
+
+      <main className="cloud-section">
+        {keywords.length > 0 ? (
+          <>
+            <WordCloud3D keywords={keywords} />
+            <div className="legend">
+              <span className="legend-label">Low</span>
+              <div className="legend-gradient" />
+              <span className="legend-label">High</span>
+            </div>
+          </>
+        ) : (
+          !loading && (
+            <p className="empty-state">Enter a URL above to generate a word cloud</p>
+          )
         )}
       </main>
     </div>
