@@ -1,5 +1,6 @@
 import { useAnalyze } from './hooks/useAnalyze'
 import { UrlInput } from './components/UrlInput'
+import { WordCloud3D } from './components/WordCloud3D'
 
 function App() {
   const { keywords, loading, error, analyze } = useAnalyze()
@@ -13,9 +14,9 @@ function App() {
 
       <main className="app-main">
         <UrlInput onSubmit={analyze} loading={loading} error={error} />
-        {}
-        {keywords.length > 0 && (
-          <p className="keyword-count">{keywords.length} keywords extracted</p>
+        <WordCloud3D keywords={keywords} />
+        {keywords.length === 0 && !loading && (
+          <p className="empty-state">Enter a URL above to generate a word cloud</p>
         )}
       </main>
     </div>
