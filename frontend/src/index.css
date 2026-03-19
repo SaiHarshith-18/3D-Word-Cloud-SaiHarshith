@@ -164,6 +164,29 @@ body {
   overflow: hidden;
 }
 
+/* ── Word tooltip ── */
+.word-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(15, 15, 19, 0.9);
+  border: 1px solid #2e2e3a;
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
+  white-space: nowrap;
+}
+
+.word-tooltip-word {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.word-tooltip-weight {
+  font-size: 0.75rem;
+  color: #4a90d9;
+}
+
 /* ── Empty state ── */
 .empty-state {
   font-size: 0.9rem;
