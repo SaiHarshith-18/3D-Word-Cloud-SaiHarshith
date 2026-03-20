@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1 className="app-title">3D Word Cloud</h1>
+        <h1 className="app-title">3D Article Visualiser</h1>
         <p className="app-subtitle">Enter a news article or Wikipedia URL to visualise its keywords</p>
       </header>
 

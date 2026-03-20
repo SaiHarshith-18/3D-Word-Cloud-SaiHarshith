@@ -1,7 +1,6 @@
-import { Suspense, useRef, useCallback } from 'react'
+import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
-import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib'
 import type { WordWeight } from '../types'
 import { WordLabel } from './WordLabel'
 
@@ -36,18 +35,20 @@ export function weightToColor(w: number): string {
   if (w >= 0.20) return '#7e03a8'  // purple
   if (w >= 0.15) return '#2563eb'  // bright blue
   if (w >= 0.10) return '#0891b2'  // cyan
-  if (w >= 0.05) return '#6b7280'  // cool gray
-  return '#666666'                  // dark gray
+  if (w >= 0.06) return '#a78bfa'  // light purple
+  return '#ffffff'                  // dark gray
 }
 
 
 // Map weight to font size scale
 function weightToSize(w: number): number {
-  if (w > 0.80) return 1.0
-  if (w >= 0.60) return 0.75
-  if (w >= 0.40) return 0.60
-  if (w >= 0.20) return 0.45
-  return 0.32
+ if (w >= 0.85) return 0.55
+if (w >= 0.70) return 0.45
+if (w >= 0.55) return 0.37
+if (w >= 0.40) return 0.30
+if (w >= 0.25) return 0.24
+if (w >= 0.10) return 0.19
+return 0.14
 }
 
 // Map weight to font weight (boldness)
@@ -63,37 +64,19 @@ interface WordCloud3DProps {
 }
 
 function Scene({ keywords }: WordCloud3DProps) {
-  const controlsRef = useRef<OrbitControlsImpl>(null!)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
-
-  const handlePointerDown = useCallback(() => {
-    if (controlsRef.current) controlsRef.current.autoRotate = false
-    clearTimeout(timeoutRef.current)
-  }, [])
-
-  const handlePointerUp = useCallback(() => {
-    clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => {
-      if (controlsRef.current) controlsRef.current.autoRotate = true
-    }, 2000)
-  }, [])
-
   const positions = fibonacciSphere(keywords.length)
 
   return (
     <>
       <ambientLight intensity={1} />
       <OrbitControls
-        ref={controlsRef}
-        autoRotate
-        autoRotateSpeed={0.3}
         enableDamping
         dampingFactor={0.1}
         enableZoom
         minDistance={3}
         maxDistance={20}
       />
-      <group onPointerDown={handlePointerDown} onPointerUp={handlePointerUp}>
+      <group>
         {keywords.map((entry, i) => (
           <WordLabel
             key={entry.word}

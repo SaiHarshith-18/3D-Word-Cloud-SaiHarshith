@@ -1,5 +1,5 @@
 import { useRef, useState, useCallback } from 'react'
-import { Text, Html } from '@react-three/drei'
+import { Text, Html, Billboard } from '@react-three/drei'
 import type { Mesh } from 'three'
 import type { WordWeight } from '../types'
 
@@ -27,29 +27,31 @@ export function WordLabel({ entry, position, fontSize, fontWeight = 400, color }
 
   return (
     <group position={position}>
-      <Text
-        ref={meshRef}
-        fontSize={fontSize}
-        fontWeight={fontWeight}
-        color={hovered ? '#ffffff' : color}
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={fontSize * 0.08}
-        outlineColor="#000000"
-        scale={hovered ? 2 : 1}
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
-      >
-        {entry.word}
-      </Text>
-      {hovered && (
-        <Html center distanceFactor={10} style={{ pointerEvents: 'none' }}>
-          <div className="word-tooltip">
-            <span className="word-tooltip-word">{entry.word}</span>
-            <span className="word-tooltip-weight">{(entry.weight * 100).toFixed(0)}%</span>
-          </div>
-        </Html>
-      )}
+      <Billboard>
+        <Text
+          ref={meshRef}
+          fontSize={fontSize}
+          fontWeight={fontWeight}
+          color={hovered ? '#ffffff' : color}
+          anchorX="center"
+          anchorY="middle"
+          outlineWidth={fontSize * 0.08}
+          outlineColor="#000000"
+          scale={hovered ? 2 : 1}
+          onPointerOver={handlePointerOver}
+          onPointerOut={handlePointerOut}
+        >
+          {entry.word}
+        </Text>
+        {hovered && (
+          <Html center distanceFactor={10} style={{ pointerEvents: 'none' }}>
+            <div className="word-tooltip">
+              <span className="word-tooltip-word">{entry.word}</span>
+              <span className="word-tooltip-weight">{(entry.weight * 100).toFixed(0)}%</span>
+            </div>
+          </Html>
+        )}
+      </Billboard>
     </group>
   )
 }

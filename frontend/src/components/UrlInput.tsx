@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 const SAMPLE_URLS = [
-  { label: 'Machine Learning', url: 'https://en.wikipedia.org/wiki/Machine_learning' },
-  { label: 'Artificial Intelligence', url: 'https://en.wikipedia.org/wiki/Artificial_intelligence' },
-  { label: 'Climate Change', url: 'https://en.wikipedia.org/wiki/Climate_change' },
+  { label: 'Wiki - Machine Learning', url: 'https://en.wikipedia.org/wiki/Machine_learning' },
+  { label: 'Wiki - Artificial Intelligence', url: 'https://en.wikipedia.org/wiki/Artificial_intelligence' },
+  { label: 'IBM Think - Machine Learning', url: 'https://www.ibm.com/think/topics/machine-learning' },
   {label: 'BBC News - Climate Change', url: 'https://www.bbc.com/news/articles/c2l799gxjjpo'},
 ]
 
@@ -30,7 +30,7 @@ export function UrlInput({ onSubmit, loading, error }: UrlInputProps) {
           type="url"
           value={url}
           onChange={e => setUrl(e.target.value)}
-          placeholder="https://en.wikipedia.org/wiki/..."
+          placeholder="Enter the URL here ..."
           required
           disabled={loading}
         />
@@ -38,9 +38,10 @@ export function UrlInput({ onSubmit, loading, error }: UrlInputProps) {
           {loading ? <span className="spinner" /> : 'Analyse'}
         </button>
       </form>
-
+      <p className="input-hint">Try one of these sample URLs:</p>
       <div className="sample-pills">
-        {SAMPLE_URLS.map(s => (
+        { 
+        SAMPLE_URLS.map(s => (
           <button
             key={s.url}
             className="pill"
